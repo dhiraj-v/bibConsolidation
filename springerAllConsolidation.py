@@ -69,10 +69,6 @@ def getSpringDetails(url):
             authorList += '; '
     else: 
         authorList = 'Authors NOT FOUND'
-    if '/article/' in url:
-
-    elif '/chapter/' in url: 
-        bibtex = '@inproceedings{' + 
     print(title)
     print(pageCount)
     print(pageRange)
