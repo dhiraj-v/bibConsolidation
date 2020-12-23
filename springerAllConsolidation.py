@@ -1,9 +1,6 @@
 from bs4 import BeautifulSoup
 import re
 import requests
-    #   COMMON: title(citation_title), author(citation_author), pages(citation_firstpage, citation_lastpage), University (citation_author_institution), Year (citation_publication_date), organization/publisher(citation_publisher)
-    #   Article: journal(citation_journal_title), volume(citation_volume), number(citation_issue), citationCount: 
-    #   Conference, Chapter: booktitle(citation_conference_title), CiteCount(chaptercitations-count-number)
 def getSpringDetails(url):
     springDetails = []
     journal = 'journal NA'
@@ -14,6 +11,7 @@ def getSpringDetails(url):
     authorKeywords = ''
     abstract = ''
     bibtex = ''
+    springerExtractions = []
     req = requests.get(url)
     soup = BeautifulSoup(req.text, "html.parser")
     prettyHTML = soup.prettify()
@@ -34,8 +32,7 @@ def getSpringDetails(url):
     publisher = (publishedBy['content'])
     if '/article/' in url:
         keywords = soup.findAll("span", {"class": "c-article-subject-list__subject"})    
-        #citations = soup.find("meta", {"name": ""})
-        #citeCount = (citations['content'])
+        citeCount = 'TBD'
         journalName = soup.find("meta", {"name": "citation_journal_title"})
         journal = (journalName['content'])
         journalVolume = soup.find("meta", {"name": "citation_volume"})
@@ -69,11 +66,29 @@ def getSpringDetails(url):
             authorList += '; '
     else: 
         authorList = 'Authors NOT FOUND'
+    bibtex = "NA"
+#    ['title', 'authors', 'university', 'year', 'pageCount',  'pages', 'citationCount', 'journal', 'volume', 'iseue', 'conference' 'keywords', 'abstract', 'bibtext']
+    springerExtractions.append(title)
+    springerExtractions.append(authorList)
+    springerExtractions.append(univ)
+    springerExtractions.append(year)
+    springerExtractions.append(pageCount)
+    springerExtractions.append(pageRange)
+    springerExtractions.append(citeCount)
+    springerExtractions.append(journal)
+    springerExtractions.append(volume)
+    springerExtractions.append(issue)
+    springerExtractions.append(book)
+    springerExtractions.append(authorKeyworsd)
+    springerExtractions.append(abstract)
+    springerExtractions.append(bibtex)
+'''    
     print(title)
     print(pageCount)
     print(pageRange)
     print(univ)
     print(year)
+    print(citeCount)
     print(publisher)
     print(authorKeywords)
     print(authorList)
@@ -82,10 +97,4 @@ def getSpringDetails(url):
     print(issue)
     print(book)
     print(abstract)
-
-print('== Chapter ==')
-getSpringDetails('https://link.springer.com/chapter/10.1007/978-3-319-94496-8_10')
-print('== Article ==')
-getSpringDetails('https://link.springer.com/article/10.1007/s11227-015-1543-4')
-print("== Conf Paper ==")
-getSpringDetails('https://link.springer.com/chapter/10.1007/978-0-387-35515-3_4')
+'''
